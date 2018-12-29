@@ -76,6 +76,9 @@
 		7347155821154CA300ADD665 /* base58.c in Sources */ = {isa = PBXBuildFile; fileRef = 7347153B21154CA300ADD665 /* base58.c */; };
 		7347155921154CA300ADD665 /* ecdsa.c in Sources */ = {isa = PBXBuildFile; fileRef = 7347153D21154CA300ADD665 /* ecdsa.c */; };
 		7347155A21154CA300ADD665 /* pbkdf2.c in Sources */ = {isa = PBXBuildFile; fileRef = 7347153E21154CA300ADD665 /* pbkdf2.c */; };
+		73482FEC21CB7C8600E32D56 /* ONTIdentity.m in Sources */ = {isa = PBXBuildFile; fileRef = 73482FEB21CB7C8600E32D56 /* ONTIdentity.m */; };
+		737FF8FD21D7463C0076446E /* ONTBufferReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 737FF8FB21D7463C0076446E /* ONTBufferReader.m */; };
+		737FF8FE21D7463C0076446E /* ONTScriptReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 737FF8FC21D7463C0076446E /* ONTScriptReader.m */; };
 		73B1C4A32115EE48002FDFF2 /* ONTRpcApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 73B1C4A22115EE48002FDFF2 /* ONTRpcApi.m */; };
 		73B1C4A72115F18B002FDFF2 /* ONTBalance.m in Sources */ = {isa = PBXBuildFile; fileRef = 73B1C4A62115F18B002FDFF2 /* ONTBalance.m */; };
 		73B1C4AB2115F21C002FDFF2 /* ONTUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 73B1C4AA2115F21C002FDFF2 /* ONTUtils.m */; };
@@ -284,6 +287,12 @@
 		7347153E21154CA300ADD665 /* pbkdf2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pbkdf2.c; sourceTree = "<group>"; };
 		7347153F21154CA300ADD665 /* secp256k1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = secp256k1.h; sourceTree = "<group>"; };
 		7347155B21154D6300ADD665 /* ONT.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ONT.h; sourceTree = "<group>"; };
+		73482FEA21CB7C8500E32D56 /* ONTIdentity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ONTIdentity.h; sourceTree = "<group>"; };
+		73482FEB21CB7C8600E32D56 /* ONTIdentity.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ONTIdentity.m; sourceTree = "<group>"; };
+		737FF8F921D7463B0076446E /* ONTScriptReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONTScriptReader.h; sourceTree = "<group>"; };
+		737FF8FA21D7463B0076446E /* ONTBufferReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONTBufferReader.h; sourceTree = "<group>"; };
+		737FF8FB21D7463C0076446E /* ONTBufferReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONTBufferReader.m; sourceTree = "<group>"; };
+		737FF8FC21D7463C0076446E /* ONTScriptReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONTScriptReader.m; sourceTree = "<group>"; };
 		73B1C4A12115EE47002FDFF2 /* ONTRpcApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONTRpcApi.h; sourceTree = "<group>"; };
 		73B1C4A22115EE48002FDFF2 /* ONTRpcApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONTRpcApi.m; sourceTree = "<group>"; };
 		73B1C4A52115F18B002FDFF2 /* ONTBalance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONTBalance.h; sourceTree = "<group>"; };
@@ -448,6 +457,8 @@
 				7347148421154BF400ADD665 /* neoutils.framework */,
 				7347149521154BF400ADD665 /* ONTAccount.h */,
 				734714BF21154BF400ADD665 /* ONTAccount.m */,
+				73482FEA21CB7C8500E32D56 /* ONTIdentity.h */,
+				73482FEB21CB7C8600E32D56 /* ONTIdentity.m */,
 				7347148321154BF400ADD665 /* ONTAddress.h */,
 				7347149A21154BF400ADD665 /* ONTAddress.m */,
 				7347148521154BF400ADD665 /* ONTAttribute.h */,
@@ -501,6 +512,10 @@
 			children = (
 				7347149E21154BF400ADD665 /* NSMutableData+ONTScriptBuilder.h */,
 				7347149D21154BF400ADD665 /* NSMutableData+ONTScriptBuilder.m */,
+				737FF8FA21D7463B0076446E /* ONTBufferReader.h */,
+				737FF8FB21D7463C0076446E /* ONTBufferReader.m */,
+				737FF8F921D7463B0076446E /* ONTScriptReader.h */,
+				737FF8FC21D7463C0076446E /* ONTScriptReader.m */,
 			);
 			path = Scripts;
 			sourceTree = "<group>";
@@ -933,12 +948,15 @@
 				7347155721154CA300ADD665 /* MBigNumber.m in Sources */,
 				734714CC21154BF400ADD665 /* ONTPublicKey.m in Sources */,
 				734714C421154BF400ADD665 /* ChildNumber.m in Sources */,
+				737FF8FD21D7463C0076446E /* ONTBufferReader.m in Sources */,
 				7347154C21154CA300ADD665 /* IAGCipheredData.m in Sources */,
 				7347155821154CA300ADD665 /* base58.c in Sources */,
 				734714CA21154BF400ADD665 /* ONTSignature.m in Sources */,
 				7347154E21154CA300ADD665 /* bignum.c in Sources */,
+				73482FEC21CB7C8600E32D56 /* ONTIdentity.m in Sources */,
 				7347154621154CA300ADD665 /* IAGAesGcm.m in Sources */,
 				731EB0BB20F8447300A1C4D0 /* main.m in Sources */,
+				737FF8FE21D7463C0076446E /* ONTScriptReader.m in Sources */,
 				7347154121154CA300ADD665 /* hmac.c in Sources */,
 				734714C321154BF400ADD665 /* ECKey.m in Sources */,
 				734714CD21154BF400ADD665 /* ONTAddress.m in Sources */,

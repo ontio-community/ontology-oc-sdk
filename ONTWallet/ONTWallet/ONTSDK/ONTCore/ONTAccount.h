@@ -108,6 +108,6 @@ typedef NS_ENUM(NSUInteger, ONTTokenType) {
  */
 - (NSString *)makeClaimOngTxWithAddress:(NSString *)address amount:(NSString *)amount gasPrice:(long)gasPrice gasLimit:(long)gasLimit;
 
-- (BOOL)isEqualToAccount:(ONTAccount*)other;
+- (BOOL)isEqualToAccount:(ONTAccount *)other;
 
 @end

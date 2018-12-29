@@ -126,7 +126,7 @@
     
     //[self testOep4Init];
     
-    [self testOep4QueryBalanceOf];
+    //[self testOep4QueryBalanceOf];
     //[self testOep4QueryDecimals];
     //[self testOep4Queries];
     

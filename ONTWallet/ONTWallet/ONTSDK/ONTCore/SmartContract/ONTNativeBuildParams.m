@@ -8,6 +8,7 @@
 
 #import "ONTNativeBuildParams.h"
 #import "NSMutableData+ONTScriptBuilder.h"
+#import "NSString+Base58.h"
 
 @implementation ONTNativeBuildParams
 +(NSData *)createCodeParamsScriptWithObject:(NSObject *)val{
@@ -23,7 +24,8 @@
     }else if ([val isKindOfClass:ONTAddress.class]){
         [data pushData:((ONTAddress *)val).publicKeyHash160];
     }else if ([val isKindOfClass:NSString.class]){
-        [data pushData:[((NSString *)val) dataUsingEncoding:NSUTF8StringEncoding]];
+        //[data pushData:[((NSString *)val) dataUsingEncoding:NSUTF8StringEncoding]];
+        [data pushData:[((NSString *)val) hexToData]];
     }else if ([val isKindOfClass:ONTStruct.class]){
         ONTStruct *stuct = (ONTStruct *)val;
         for (NSObject *o in stuct.array) {
@@ -50,7 +52,8 @@
         }else if ([val isKindOfClass:ONTAddress.class]){
             [data pushData:((ONTAddress *)val).publicKeyHash160];
         }else if ([val isKindOfClass:NSString.class]){
-            [data pushData:[((NSString *)val) dataUsingEncoding:NSUTF8StringEncoding]];
+            //[data pushData:[((NSString *)val) dataUsingEncoding:NSUTF8StringEncoding]];
+            [data pushData:[((NSString *)val) hexToData]];
         }else if ([val isKindOfClass:ONTStruct.class]){
             [data pushNumber:@(0)];
             [data addOpcode:ONT_OPCODE_NEWSTRUCT];
@@ -84,7 +87,6 @@
             [data pushNumber:@(a.count)];
             [data pushPack];
         }
-        
     }
     
     return data;

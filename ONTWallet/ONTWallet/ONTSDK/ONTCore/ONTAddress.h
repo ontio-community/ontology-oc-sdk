@@ -9,8 +9,10 @@
 #import <Foundation/Foundation.h>
 
 @interface ONTAddress : NSObject
+
 @property (nonatomic,readonly) NSString *address;
 @property (nonatomic,readonly) NSData *publicKeyHash160;
+
 /**
  * @brief Initialization method
  */
@@ -19,5 +21,7 @@
  * @brief Initialization method
  */
 - (instancetype)initWithData:(NSData*)data;
+
+- (NSString *)generateOntid;
 
 @end
