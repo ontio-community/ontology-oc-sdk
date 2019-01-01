@@ -34,7 +34,9 @@
     invokeCode.nonce = arc4random_uniform(INT_MAX);
     invokeCode.gasLimit = gasLimit;
     invokeCode.gasPrice = gasPrice;
-    invokeCode.payer = payer;
+    if (payer) {
+        invokeCode.payer = payer;
+    }
     invokeCode.code = data;
 
     return invokeCode;

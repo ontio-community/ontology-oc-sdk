@@ -51,6 +51,10 @@
     }
     return self;
 }
+
+- (NSString *)generateOntid {
+    return [NSString stringWithFormat:@"did:ont:%@", self.address];
+}
 -(NSData *)hash160{
     NSData *data = [_address base58checkToData];
     
