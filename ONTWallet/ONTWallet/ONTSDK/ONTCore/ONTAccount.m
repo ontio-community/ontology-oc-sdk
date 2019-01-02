@@ -355,10 +355,6 @@
     return txHex;
 }
 
-- (NSString *)description {
-    return [NSString stringWithFormat:@"【name】== %@\n【mnemonicText】== %@\n【encryptMnemonicText】== %@\n【privateKeyHex】== %@\n【wif】== %@\n【keystore】== %@\n【address】== %@", self.name, self.mnemonicText, self.encryptMnemonicText, self.privateKeyHex, self.wif, self.keystore, self.address.address];
-}
-
 - (BOOL)isEqualToAccount:(ONTAccount*)other {
     if (self == other) {
         return YES;
@@ -370,4 +366,17 @@
     
     return [self.address.publicKeyHash160 isEqualToData:other.address.publicKeyHash160];
 }
+
+- (NSString *)signMessage:(NSData *)message {
+    ONTECKey *ecKey = [[ONTECKey alloc] initWithPriKey:self.privateKey.data];
+    // 签名
+    ECKeySignature *sign = [ecKey sign:message];
+    sign.V = 0x01;
+    return sign.toHex;
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"【name】== %@\n【mnemonicText】== %@\n【encryptMnemonicText】== %@\n【privateKeyHex】== %@\n【wif】== %@\n【keystore】== %@\n【address】== %@", self.name, self.mnemonicText, self.encryptMnemonicText, self.privateKeyHex, self.wif, self.keystore, self.address.address];
+}
+
 @end

@@ -165,6 +165,22 @@ static ONTRpcApi *_instance = nil;
     }];
 }
 
+- (void)dappSendRawtransactionWithHexTx:(NSString *)hexTx preExec:(BOOL)preExec callback:(void (^)(ONTTransactionNotifyInfo *notifyInfo, id responseObject, NSError *error))callback {
+    AFJSONRPCClient *client = [AFJSONRPCClient clientWithEndpointURL:[NSURL URLWithString:kONTDappServerNode]];
+    [client invokeMethod:@"sendrawtransaction" withParameters:@[hexTx, preExec?@(1):@(0)] requestId:@(3) success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"【ONTRpcApi sendrawtransaction】%@", responseObject);
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+            ONTTransactionNotifyInfo *notifyInfo = [ONTTransactionNotifyInfo initWithDic:(NSDictionary *)responseObject];
+            callback(notifyInfo, responseObject, nil);
+        } else {
+            callback(nil, responseObject, nil);
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"【ONTRpcApi sendrawtransaction】%@", error);
+        callback(nil, nil, error);
+    }];
+}
+
 - (void)getStorageWithScriptHash:(NSString *)scriptHash key:(NSString *)key callback:(void (^)(id result, NSError *error))callback {
     [self.client invokeMethod:@"getstorage" withParameters:@[scriptHash, key] requestId:@(3) success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"【ONTRpcApi getstorage】%@", responseObject);

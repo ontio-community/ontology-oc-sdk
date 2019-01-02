@@ -23,6 +23,7 @@ typedef NS_OPTIONS(NSInteger, ONTTransactionType){
     ONTTransactionTypeInvokeCode = 0xd1,
     ONTTransactionTypeTransferTransaction = 0x80
 };
+
 @interface ONTTransaction : NSObject
 
 @property (nonatomic,assign) uint8_t version;
@@ -33,6 +34,7 @@ typedef NS_OPTIONS(NSInteger, ONTTransactionType){
 @property (nonatomic,strong) ONTAddress *payer;
 @property (nonatomic,strong) NSMutableArray<ONTAttribute *> *attributes;
 @property (nonatomic,strong) NSMutableArray<ONTSignature *> *signatures;
+
 /**
  * @brief Initialization method
  */
@@ -50,7 +52,17 @@ typedef NS_OPTIONS(NSInteger, ONTTransactionType){
  */
 - (void)toExclusiveByte:(NSMutableData *)stream;
 
-- (NSData*)getSignHash;
+- (NSData *)getSignHash;
 
-- (void)addSign:(ONTAccount*)signer;
+- (void)addSign:(ONTAccount *)signer;
+
+
+/**
+ 构造 Invoke Transaction
+
+ @param dic DAPP 返回的交易数据
+ @return ONTTransaction 对象
+ */
++ (ONTTransaction *)makeDappInvokeTransactionWithDic:(NSDictionary *)dic;
+
 @end

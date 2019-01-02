@@ -12,7 +12,11 @@
 
 @implementation ONTAddress
 
-- (instancetype)init{
++ (instancetype)addressWithString:(NSString *)addressString {
+    return [[ONTAddress alloc] initWithAddressString:addressString];
+}
+
+- (instancetype)init {
     self = [super init];
     if (self) {
         _address = nil;
@@ -20,10 +24,11 @@
     }
     return self;
 }
+
 /**
  * @brief Initialization method
  */
-- (instancetype)initWithData:(NSData*)data{
+- (instancetype)initWithData:(NSData *)data {
     self = [super init];
     if (self) {
         if (data.length != 20) {
@@ -34,10 +39,11 @@
     }
     return self;
 }
+
 /**
  * @brief Initialization method
  */
-- (instancetype)initWithAddressString:(NSString*)addressString{
+- (instancetype)initWithAddressString:(NSString *)addressString {
     self = [super init];
     if (self) {
         if (addressString.length != 34) {
@@ -55,7 +61,8 @@
 - (NSString *)generateOntid {
     return [NSString stringWithFormat:@"did:ont:%@", self.address];
 }
--(NSData *)hash160{
+
+- (NSData *)hash160 {
     NSData *data = [_address base58checkToData];
     
     unsigned char COIN_VERSION = 0x17;
@@ -68,13 +75,16 @@
     
     return [data subdataWithRange:NSMakeRange(1, 20)];
 }
--(NSString *)hash160ToAddress{
+
+- (NSString *)hash160ToAddress {
     unsigned char COIN_VERSION = 0x17;
     NSString *hex = [[NSData dataWithBytes:&COIN_VERSION length:1].hexString stringByAppendingString:_publicKeyHash160.hexString];
     
     return [NSString base58checkWithData:hex.hexToData];
 }
--(NSString *)description{
+
+- (NSString *)description {
     return _address;
 }
+
 @end

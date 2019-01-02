@@ -110,4 +110,13 @@ typedef NS_ENUM(NSUInteger, ONTTokenType) {
 
 - (BOOL)isEqualToAccount:(ONTAccount *)other;
 
+/**
+ 签名消息
+
+ @param message 消息数据
+ @return 签名后的 HexString
+ */
+- (NSString *)signMessage:(NSData *)message;
+
+
 @end
