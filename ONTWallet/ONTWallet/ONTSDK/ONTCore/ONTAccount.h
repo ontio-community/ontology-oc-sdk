@@ -118,5 +118,4 @@ typedef NS_ENUM(NSUInteger, ONTTokenType) {
  */
 - (NSString *)signMessage:(NSData *)message;
 
-
 @end

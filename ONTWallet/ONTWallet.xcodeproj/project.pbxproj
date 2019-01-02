@@ -966,7 +966,10 @@
 				73482FEC21CB7C8600E32D56 /* ONTIdentity.m in Sources */,
 				7347154621154CA300ADD665 /* IAGAesGcm.m in Sources */,
 				731EB0BB20F8447300A1C4D0 /* main.m in Sources */,
+<<<<<<< HEAD
 				7326E11C21DC92D600173C03 /* ONTTransactionNotifyInfo.m in Sources */,
+=======
+>>>>>>> ontio-community/master
 				737FF8FE21D7463C0076446E /* ONTScriptReader.m in Sources */,
 				7347154121154CA300ADD665 /* hmac.c in Sources */,
 				734714C321154BF400ADD665 /* ECKey.m in Sources */,
