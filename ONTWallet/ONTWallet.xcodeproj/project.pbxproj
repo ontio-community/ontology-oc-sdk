@@ -16,6 +16,8 @@
 		731EB0BB20F8447300A1C4D0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 731EB0BA20F8447300A1C4D0 /* main.m */; };
 		731EB0C520F8447300A1C4D0 /* ONTWalletTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 731EB0C420F8447300A1C4D0 /* ONTWalletTests.m */; };
 		731EB0D020F8447300A1C4D0 /* ONTWalletUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 731EB0CF20F8447300A1C4D0 /* ONTWalletUITests.m */; };
+		7326E11921DC903B00173C03 /* ONTDappInvokeConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 7326E11821DC903B00173C03 /* ONTDappInvokeConfig.m */; };
+		7326E11C21DC92D600173C03 /* ONTTransactionNotifyInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7326E11B21DC92D600173C03 /* ONTTransactionNotifyInfo.m */; };
 		7332E3B921A900DC00EB43E6 /* NeoVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 7332E3B121A900DC00EB43E6 /* NeoVM.m */; };
 		7332E3BA21A900DC00EB43E6 /* BuildParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 7332E3B221A900DC00EB43E6 /* BuildParams.m */; };
 		7332E3BB21A900DC00EB43E6 /* Oep4.m in Sources */ = {isa = PBXBuildFile; fileRef = 7332E3B321A900DC00EB43E6 /* Oep4.m */; };
@@ -126,6 +128,10 @@
 		731EB0CB20F8447300A1C4D0 /* ONTWalletUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ONTWalletUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		731EB0CF20F8447300A1C4D0 /* ONTWalletUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ONTWalletUITests.m; sourceTree = "<group>"; };
 		731EB0D120F8447300A1C4D0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7326E11721DC903B00173C03 /* ONTDappInvokeConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONTDappInvokeConfig.h; sourceTree = "<group>"; };
+		7326E11821DC903B00173C03 /* ONTDappInvokeConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONTDappInvokeConfig.m; sourceTree = "<group>"; };
+		7326E11A21DC92D500173C03 /* ONTTransactionNotifyInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONTTransactionNotifyInfo.h; sourceTree = "<group>"; };
+		7326E11B21DC92D600173C03 /* ONTTransactionNotifyInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONTTransactionNotifyInfo.m; sourceTree = "<group>"; };
 		7332E3AF21A900DC00EB43E6 /* AbiFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbiFunction.h; sourceTree = "<group>"; };
 		7332E3B021A900DC00EB43E6 /* Parameter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Parameter.h; sourceTree = "<group>"; };
 		7332E3B121A900DC00EB43E6 /* NeoVM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NeoVM.m; sourceTree = "<group>"; };
@@ -545,6 +551,10 @@
 				734714A821154BF400ADD665 /* ONTNativeBuildParams.m */,
 				734714B121154BF400ADD665 /* ONTStruct.h */,
 				734714AC21154BF400ADD665 /* ONTStruct.m */,
+				7326E11721DC903B00173C03 /* ONTDappInvokeConfig.h */,
+				7326E11821DC903B00173C03 /* ONTDappInvokeConfig.m */,
+				7326E11A21DC92D500173C03 /* ONTTransactionNotifyInfo.h */,
+				7326E11B21DC92D600173C03 /* ONTTransactionNotifyInfo.m */,
 			);
 			path = SmartContract;
 			sourceTree = "<group>";
@@ -956,6 +966,10 @@
 				73482FEC21CB7C8600E32D56 /* ONTIdentity.m in Sources */,
 				7347154621154CA300ADD665 /* IAGAesGcm.m in Sources */,
 				731EB0BB20F8447300A1C4D0 /* main.m in Sources */,
+<<<<<<< HEAD
+				7326E11C21DC92D600173C03 /* ONTTransactionNotifyInfo.m in Sources */,
+=======
+>>>>>>> ontio-community/master
 				737FF8FE21D7463C0076446E /* ONTScriptReader.m in Sources */,
 				7347154121154CA300ADD665 /* hmac.c in Sources */,
 				734714C321154BF400ADD665 /* ECKey.m in Sources */,
@@ -970,6 +984,7 @@
 				7332E3B921A900DC00EB43E6 /* NeoVM.m in Sources */,
 				7347154821154CA300ADD665 /* IAGAesComponents.m in Sources */,
 				734714C721154BF400ADD665 /* ONTPrivateKey.m in Sources */,
+				7326E11921DC903B00173C03 /* ONTDappInvokeConfig.m in Sources */,
 				7347154221154CA300ADD665 /* sha2.c in Sources */,
 				734714D921154BF400ADD665 /* NSData+Hash.m in Sources */,
 				73B1C4A72115F18B002FDFF2 /* ONTBalance.m in Sources */,

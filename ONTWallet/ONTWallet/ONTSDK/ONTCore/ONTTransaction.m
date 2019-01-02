@@ -10,16 +10,19 @@
 #import "NSMutableData+Extend.h"
 #import "NSData+Hash.h"
 #import "NSData+Extend.h"
+#import "NSString+Base58.h"
 #import "ONTAddress.h"
 #import "ONTECKey.h"
 #import "ONTAccount.h"
-
+#import "ONTDappInvokeConfig.h"
+#import "BuildParams.h"
+#import "ONTInvokeCode.h"
 
 @implementation ONTTransaction
 /**
  * @brief Initialization method
  */
-- (instancetype)initWithType:(ONTTransactionType)type{
+- (instancetype)initWithType:(ONTTransactionType)type {
     self = [super init];
     if (self) {
         _type = type;
@@ -33,10 +36,11 @@
     }
     return self;
 }
+
 /**
  * @brief Obtaining complete byte stream data
  */
-- (NSData *)toByte{
+- (NSData *)toByte {
     NSMutableData *stream = [NSMutableData new];
     [stream appendUInt8:_version];
     [stream appendUInt8:_type];
@@ -52,10 +56,11 @@
     }
     return stream;
 }
+
 /**
  * @brief Obtaining complete byte stream data
  */
-- (NSData *)toRawByte{
+- (NSData *)toRawByte {
     NSMutableData *stream = [NSMutableData new];
     [stream appendData:[self toByte]];
     // Signatures
@@ -65,18 +70,44 @@
     }
     return stream;
 }
+
 /**
  * @brief Obtaining Exclusive byte stream data
  */
-- (void)toExclusiveByte:(NSMutableData *)stream{
+- (void)toExclusiveByte:(NSMutableData *)stream {
 }
-- (NSData*)getSignHash {
+
+- (NSData *)getSignHash {
     return [self toByte].SHA256_2;
 }
+
 - (void)addSign:(ONTAccount *)signer {
     ONTECKey *ecKey = [[ONTECKey alloc] initWithPriKey:signer.privateKey.data];
     ECKeySignature *sign = [ecKey sign:self.getSignHash];
     [self.signatures addObject:[[ONTSignature alloc] initWithPublicKey:ecKey.publicKeyAsData signature:sign.toDataNoV]];
+}
+
++ (ONTTransaction *)makeDappInvokeTransactionWithDic:(NSDictionary *)dic {
+    ONTDappInvokeConfig *invokeConfig = [ONTDappInvokeConfig invokeConfigWithDic:dic];
+    if (!invokeConfig) {
+        return nil;
+    }
+    
+    NSMutableData *p = [NSMutableData new];
+    for (AbiFunction *function in invokeConfig.functions) {
+        NSData *data = [BuildParams serializeAbiFunction:function];
+        [p appendData:data];
+    }
+    
+    ONTAddress *contract = [[ONTAddress alloc] initWithData:[[invokeConfig.contractHash hexToData] reverse]];
+    ONTAddress *payer = [ONTAddress addressWithString:invokeConfig.payer];
+    ONTTransaction *transaction = [ONTInvokeCode invokeNeoCodeTransaction:contract
+                                                               initMethod:nil
+                                                                     args:p
+                                                                    payer:payer
+                                                                 gasLimit:invokeConfig.gasLimit
+                                                                 gasPrice:invokeConfig.gasPrice];
+    return transaction;
 }
 
 @end

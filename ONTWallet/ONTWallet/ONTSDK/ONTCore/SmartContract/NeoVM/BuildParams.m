@@ -28,6 +28,10 @@
             [tmp addObject: param.value];
         } else if ([@"Integer" isEqualToString:param.type]) {
             [tmp addObject: param.value];
+        } else if ([@"String" isEqualToString:param.type]) {
+            [tmp addObject: param.value];
+        } else {
+            [tmp addObject: param.value];
         }
     }
     
@@ -38,25 +42,25 @@
     return [BuildParams createCodeParamsScript:list];
 }
 
-+(NSData *)createCodeParamsScript:(NSArray<NSObject *> *)array{
++ (NSData *)createCodeParamsScript:(NSArray<NSObject *> *)array {
     NSMutableData *data = [NSMutableData new];
-    for (int i = [array count] - 1; i >= 0; i--) {
+    for (int i = (int)(array.count - 1); i >= 0; i--) {
         NSObject* val = [array objectAtIndex:i];
         if ([val isKindOfClass:NSData.class]) {
             [data pushData:(NSData *)val];
-        }else if ([val isKindOfClass:ONTBool.class]){
+        } else if ([val isKindOfClass:ONTBool.class]) {
             [data pushBool:((ONTBool *)val).value];
-        }else if ([val isKindOfClass:ONTInteger.class]){
+        } else if ([val isKindOfClass:ONTInteger.class]) {
             uint64_t v = CFSwapInt64HostToLittle(((ONTInteger *)val).value);
             [data pushData:[NSData dataWithBytes:&v length:sizeof(v)]];
-        }else if ([val isKindOfClass:ONTLong.class]){
+        } else if ([val isKindOfClass:ONTLong.class]) {
             uint64_t v = CFSwapInt64HostToLittle(((ONTLong *)val).value);
             [data pushData:[NSData dataWithBytes:&v length:sizeof(v)]];
-        }else if ([val isKindOfClass:ONTAddress.class]){
+        } else if ([val isKindOfClass:ONTAddress.class]) {
             [data pushData:((ONTAddress *)val).publicKeyHash160];
-        }else if ([val isKindOfClass:NSString.class]){
+        } else if ([val isKindOfClass:NSString.class]) {
             [data pushData:[((NSString *)val) dataUsingEncoding:NSUTF8StringEncoding]];
-        }else if ([val isKindOfClass:NSArray.class] || [val isKindOfClass:NSMutableArray.class]){
+        } else if ([val isKindOfClass:NSArray.class] || [val isKindOfClass:NSMutableArray.class]) {
             NSArray<NSObject *> *a = (NSArray<NSObject *> *)val;
             [data addData:[BuildParams createCodeParamsScript:a]];
             [data pushNumber:@(a.count)];

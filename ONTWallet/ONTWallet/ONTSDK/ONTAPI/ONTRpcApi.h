@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ONTTransactionNotifyInfo.h"
 
 @interface ONTRpcApi : NSObject
 
@@ -39,6 +40,7 @@
 
 //向网络中发送交易(发送的数据为签过名的交易序列化后的十六进制字符串)
 - (void)sendRawtransactionWithHexTx:(NSString *)hexTx preExec:(BOOL)preExec callback:(void (^)(NSString *txHash, NSError *error))callback;
+- (void)dappSendRawtransactionWithHexTx:(NSString *)hexTx preExec:(BOOL)preExec callback:(void (^)(ONTTransactionNotifyInfo *notifyInfo, id responseObject, NSError *error))callback;
 
 //根据合约地址和存储的键，得到对应的值
 - (void)getStorageWithScriptHash:(NSString *)scriptHash key:(NSString *)key callback:(void (^)(id result, NSError *error))callback;

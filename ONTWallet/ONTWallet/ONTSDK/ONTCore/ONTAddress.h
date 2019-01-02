@@ -13,6 +13,8 @@
 @property (nonatomic,readonly) NSString *address;
 @property (nonatomic,readonly) NSData *publicKeyHash160;
 
++ (instancetype)addressWithString:(NSString*)addressString;
+
 /**
  * @brief Initialization method
  */
