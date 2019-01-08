@@ -74,7 +74,7 @@ NSString *txHex = [account makeClaimOngTxWithAddress:account.address.address amo
 NSLog(@"Claim ONG txHex == %@", txHex);
 
 [[ONTRpcApi shareInstance] sendRawtransactionWithHexTx:txHex preExec:NO callback:^(NSString *txHash, NSError *error) {
-NSLog(@"txHash == %@,error:%@",txHash, error);
+    NSLog(@"txHash == %@,error:%@",txHash, error);
     if (error) {
         NSLog(@"error == %@", error);
     } else {
@@ -82,3 +82,62 @@ NSLog(@"txHash == %@,error:%@",txHash, error);
     }
 }];
 ```
+
+### OEP4
+
+#### balanceOf
+
+```
+ONTAccount *account = [[ONTAccount alloc] initWithName:@"ONT" password:@"123456" privateKeyHex:@"5f2fe68215476abb9852cfa7da31ef00aa1468782d5ca809da5c4e1390b8ee45"];
+
+[NeoVM shareInstance].oep4.contractAddress = @"b0bc9d8eb833c9903fa2e794f8413f6366f721ce";
+
+[[NeoVM shareInstance].oep4 queryBalanceOf:account.address.address queryCallback:^(NSString *balance, NSError *error) {
+    NSLog(@"balance == %@, %@", balance, [error localizedDescription]);
+}];
+```
+
+#### decimals
+
+```
+[NeoVM shareInstance].oep4.contractAddress = @"b0bc9d8eb833c9903fa2e794f8413f6366f721ce";
+
+[[NeoVM shareInstance].oep4 queryDecimalsWithQueryCallback:^(NSString *result, NSError *error) {
+    NSLog(@"result == %@, %@", result, [error localizedDescription]);
+}];
+```
+
+#### totalSupply
+
+```
+[NeoVM shareInstance].oep4.contractAddress = @"b0bc9d8eb833c9903fa2e794f8413f6366f721ce";
+
+[[NeoVM shareInstance].oep4 queryTotalSupply:^(NSString *result, NSError *error) {
+    NSLog(@"result == %@, %@", result, [error localizedDescription]);
+}];
+
+```
+
+#### name
+
+```
+[NeoVM shareInstance].oep4.contractAddress = @"b0bc9d8eb833c9903fa2e794f8413f6366f721ce";
+
+[[NeoVM shareInstance].oep4 queryName:^(NSString *result, NSError *error) {
+    NSLog(@"result == %@, %@", result, [error localizedDescription]);
+}];
+```
+
+#### symbol
+
+```
+[NeoVM shareInstance].oep4.contractAddress = @"b0bc9d8eb833c9903fa2e794f8413f6366f721ce";
+
+[[NeoVM shareInstance].oep4 querySymbol:^(NSString *result, NSError *error) {
+    NSLog(@"result == %@, %@", result, [error localizedDescription]);
+}];
+```
+
+## Others
+
+See more tests in the file "ViewController.m"、"ONTWalletTests.m", thx!
