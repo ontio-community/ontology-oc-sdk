@@ -138,6 +138,35 @@ ONTAccount *account = [[ONTAccount alloc] initWithName:@"ONT" password:@"123456"
 }];
 ```
 
+#### transfer
+
+```
+[NeoVM shareInstance].oep4.contractAddress = @"b0bc9d8eb833c9903fa2e794f8413f6366f721ce";
+
+ONTAccount *from = [[ONTAccount alloc] initWithName:@"ONT" password:@"123456" privateKeyHex:@"5f2fe68215476abb9852cfa7da31ef00aa1468782d5ca809da5c4e1390b8ee45"];
+
+BOOL isPreExec = NO;
+[[NeoVM shareInstance].oep4 sendTransfer:from
+                                      to:@"ASrLANryFnqwSt76h2YbhssdZeRGagRYem"
+                              withAmount:100000000
+                              byGasPayer:from
+                             useGasLimit:20000
+                             useGasPrice:500
+                                 preExec:isPreExec
+                           queryCallback:^(id result, NSError *error) {
+                                if (error) {
+                                    NSLog(@"error == %@", error);
+                                } else {
+                                    if (isPreExec) {
+                                        NSLog(@"result == %@", result);
+                                    } else {
+                                        NSString *txhash = (NSString *)result;
+                                        NSLog(@"txhash == %@", txhash);
+                                    }
+                                }
+}];
+```
+
 ## Others
 
 See more tests in the file "ViewController.m"、"ONTWalletTests.m", thx!
