@@ -463,11 +463,11 @@
 			isa = PBXGroup;
 			children = (
 				7326E13C21DCA22000173C03 /* ONTAttribute.h */,
-				7326E13D21DCA22000173C03 /* ONTTransaction.m */,
-				7326E13E21DCA22000173C03 /* ONTSignature.m */,
 				7326E13F21DCA22000173C03 /* ONTAttribute.m */,
-				7326E14021DCA22000173C03 /* ONTTransaction.h */,
 				7326E14121DCA22000173C03 /* ONTSignature.h */,
+				7326E13E21DCA22000173C03 /* ONTSignature.m */,
+				7326E14021DCA22000173C03 /* ONTTransaction.h */,
+				7326E13D21DCA22000173C03 /* ONTTransaction.m */,
 			);
 			path = Transaction;
 			sourceTree = "<group>";

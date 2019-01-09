@@ -34,11 +34,10 @@
 - (instancetype)initWithName:(NSString *)name password:(NSString *)password keystore:(NSString *)keystore;
 
 
-
 - (ONTTransaction *)makeRegisterOntIdTxWithPayer:(ONTAccount *)payer gasPrice:(long)gasPrice gasLimit:(long)gasLimit;
 
-- (ONTTransaction *)getDDOTx;
++ (ONTTransaction *)makeGetDDOTransactionWithOntid:(NSString *)ontid;
 
-- (ONTTransaction *)getDDOTxWithPayer:(ONTAccount *)payer gasPrice:(long)gasPrice gasLimit:(long)gasLimit;
++ (NSDictionary *)parserDDODataWithOntid:(NSString *)ontid result:(NSString *)result;
 
 @end
