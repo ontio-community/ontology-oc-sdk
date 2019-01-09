@@ -16,6 +16,7 @@
 #import "ONTECKey.h"
 #import "IAGAesGcm.h"
 #import "ONTStruct.h"
+#import "ONTScriptReader.h"
 
 #import "ONTNativeBuildParams.h"
 #import "ONTInvokeCode.h"
@@ -265,13 +266,11 @@
     return transaction;
 }
 
-- (ONTTransaction *)getDDOTx {
-    //ONTECKey *ecKeyID = [[ONTECKey alloc] initWithPriKey:self.privateKey.data];
-    
++ (ONTTransaction *)makeGetDDOTransactionWithOntid:(NSString *)ontid {
     ONTAddress *contractAddress = [[ONTAddress alloc] initWithData:ONTID_CONTRACT.hexToData];
     
     ONTStruct *ontStruct = [[ONTStruct alloc] init];
-    [ontStruct add:[self.ontid dataUsingEncoding:NSUTF8StringEncoding]];
+    [ontStruct add:[ontid dataUsingEncoding:NSUTF8StringEncoding]];
     
     NSMutableArray *array = [NSMutableArray new];
     [array addObject:ontStruct];
@@ -279,15 +278,141 @@
     NSData *args = [ONTNativeBuildParams createCodeParamsScript:array];
     ONTTransaction *transaction = [ONTInvokeCode invokeCodeTransaction:contractAddress initMethod:@"getDDO" args:args payer:nil gasLimit:0 gasPrice:0];
     
-    // 签名
-    //ECKeySignature *sign = [ecKeyID sign:transaction.getSignHash];
-    //[transaction.signatures addObject:[[ONTSignature alloc] initWithPublicKey:ecKeyID.publicKeyAsData signature:sign.toDataNoV]];
-    
     return transaction;
 }
 
-- (ONTTransaction *)getDDOTxWithPayer:(ONTAccount *)payer gasPrice:(long)gasPrice gasLimit:(long)gasLimit {
-    return nil;
++ (NSDictionary *)parserDDODataWithOntid:(NSString *)ontid result:(NSString *)result {
+    NSMutableDictionary *dicDDO = [NSMutableDictionary new];
+    [dicDDO setValue:ontid forKey:@"OntId"];
+    
+    ONTScriptReader *reader = [[ONTScriptReader alloc] initWithData:result.hexToData];
+    NSData *publicKey = [reader readVarData];
+    NSData *attribute = [reader readVarData];
+    NSData *recovery = [reader readVarData];
+    
+    NSMutableArray *pubKeyList = [NSMutableArray new];
+    if (publicKey.length != 0) {
+        ONTScriptReader *pubkeyReader = [[ONTScriptReader alloc] initWithData:publicKey];
+        while (YES) {
+            NSMutableDictionary *pubKeyDic = [NSMutableDictionary new];
+            
+            uint32_t keys = [pubkeyReader readUInt32LE];
+            if (keys == 0) {
+                break;
+            }
+            NSData *pubKey = [pubkeyReader readVarData];
+            Byte key;
+            [pubKey getBytes:&key range:NSMakeRange(0, 1)];
+            
+            Byte curve;
+            [pubKey getBytes:&curve range:NSMakeRange(1, 1)];
+            
+            
+            NSString *pubKeyId = [NSString stringWithFormat:@"%@#keys-%d", ontid, keys];
+            NSLog(@"PubKeyId:%@", pubKeyId);
+            [pubKeyDic setValue:pubKeyId forKey:@"PubKeyId"];
+            
+            if (pubKey.length == 33) {
+                NSLog(@"Type:%@",@"ECDSA");
+                NSLog(@"Curve:%@",@"P-256");
+                NSLog(@"Value:%@",pubKey.hexString);
+                
+                [pubKeyDic setValue:@"ECDSA" forKey:@"Type"];
+                [pubKeyDic setValue:@"P-256" forKey:@"Curve"];
+                [pubKeyDic setValue:pubKey.hexString forKey:@"Value"];
+                
+            } else {
+                Byte key;
+                [pubKey getBytes:&key range:NSMakeRange(0, 1)];
+                
+                Byte curve;
+                [pubKey getBytes:&curve range:NSMakeRange(1, 1)];
+                
+                NSLog(@"Type:%@",[self keyType:key]);
+                NSLog(@"Curve:%@",[self curve:curve]);
+                NSLog(@"Value:%@",pubKey.hexString);
+                
+                [pubKeyDic setValue:[self keyType:key] forKey:@"Type"];
+                [pubKeyDic setValue:[self curve:curve] forKey:@"Curve"];
+                [pubKeyDic setValue:pubKey.hexString forKey:@"Value"];
+            }
+            
+            [pubKeyList addObject:pubKeyDic];
+        }
+    }
+    NSLog(@"pubKeyList == %@", pubKeyList);
+    [dicDDO setValue:pubKeyList forKey:@"Owners"];
+    
+    NSMutableArray *attrsList = [NSMutableArray new];
+    if (attribute.length != 0) {
+        ONTScriptReader *attributeReader = [[ONTScriptReader alloc] initWithData:attribute];
+        while (YES) {
+            NSMutableDictionary *attributeDic = [NSMutableDictionary new];
+            
+            NSData *key = [attributeReader readVarData];
+            if (!key && key.length == 0) {
+                break;
+            }
+            NSData *type = [attributeReader readVarData];
+            if (!type && type.length == 0) {
+                break;
+            }
+            NSData *value = [attributeReader readVarData];
+            NSLog(@"Key:%@",key);
+            NSLog(@"Type:%@",type);
+            NSLog(@"Value:%@",value);
+            
+            [attributeDic setValue:[[NSString alloc] initWithData:key encoding:NSUTF8StringEncoding] forKey:@"Key"];
+            [attributeDic setValue:[[NSString alloc] initWithData:type encoding:NSUTF8StringEncoding] forKey:@"Type"];
+            [attributeDic setValue:[[NSString alloc] initWithData:value encoding:NSUTF8StringEncoding] forKey:@"Value"];
+            
+            [attrsList addObject:attributeDic];
+        }
+    }
+    NSLog(@"attrsList == %@", attrsList);
+    [dicDDO setValue:attrsList forKey:@"Attributes"];
+    
+    if (recovery.length != 0) {
+        ONTAddress *address = [[ONTAddress alloc] initWithData:recovery];
+        NSLog(@"recovery == %@", address.address);
+        [dicDDO setValue:address.address forKey:@"Recovery"];
+    }
+    
+    return dicDDO;
 }
+
++ (NSString *)keyType:(Byte)byte {
+    switch (byte) {
+        case 0x12:
+            return @"ECDSA";
+        case 0x13:
+            return @"SM2";
+        case 0x14:
+            return @"EDDSA";
+        default:
+            return @"";
+    }
+}
+
++ (NSString *)curve:(Byte)byte {
+    switch (byte) {
+        case 0x01:
+            return @"P-224";
+        case 0x02:
+            return @"P-256";
+        case 0x03:
+            return @"P-384";
+        case 0x04:
+            return @"P-521";
+        case 0x20:
+            return @"sm2p256v1";
+        case 0x25:
+            return @"ED25519";
+            
+        default:
+            return @"";
+    }
+}
+
 
 @end

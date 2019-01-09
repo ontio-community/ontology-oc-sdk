@@ -83,6 +83,7 @@ NSLog(@"Claim ONG txHex == %@", txHex);
 }];
 ```
 
+
 ### OEP4
 
 #### balanceOf
@@ -166,6 +167,65 @@ BOOL isPreExec = NO;
                                 }
 }];
 ```
+
+
+### ONTID
+
+#### Create Ontid
+
+```
+ONTIdentity *ontID = [[ONTIdentity alloc] initWithName:@"MyOntid" password:@"ONT123ont"];
+NSLog(@"%@", ontID.ontid);
+```
+
+#### Register Ontid
+
+```
+ONTIdentity *ontID = [[ONTIdentity alloc] initWithName:@"MyOntid" password:@"ONT123ont"];
+ONTAccount *account = [[ONTAccount alloc] initWithName:@"ONT" password:@"ONT123ont" privateKeyHex:@"c3cc0e31af0e085299b38962281fceeb39cca70ac4ecc3bbd46e25154a9fb317"];
+NSString *txHex = [ontID makeRegisterOntIdTxWithPayer:account gasPrice:500 gasLimit:20000].toRawByte.hexString;
+
+[[ONTRpcApi shareInstance] sendRawtransactionWithHexTx:txHex preExec:NO callback:^(NSString *txHash, NSError *error) {
+    if (error) {
+        NSLog(@"error == %@", error);
+    } else {
+        NSLog(@"txHash == %@", txHash);
+    }
+}];
+```
+
+#### Import Ontid
+
+```
+ONTIdentity *ontID = [[ONTIdentity alloc] initWithName:@"MyOntid" password:@"ONT123ont" privateKeyHex:@"c3cc0e31af0e085299b38962281fceeb39cca70ac4ecc3bbd46e25154a9fb317"];
+NSLog(@"%@", ontID.ontid);
+```
+
+#### Get DDO
+
+```
+NSString *ontid = @"did:ont:AUr5QUfeBADq6BMY6Tp5yuMsUNGpsD7nLZ";
+NSString *txHex = [ONTIdentity makeGetDDOTransactionWithOntid:ontid].toRawByte.hexString;
+NSLog(@"%@", txHex);
+
+[[ONTRpcApi shareInstance] sendRawtransactionWithHexTx:txHex preExec:YES callback:^(NSString *resut, NSError *error) {
+    if (error) {
+        NSLog(@"error == %@", error);
+    } else {
+        NSLog(@"resut == %@", resut);
+    }
+}];
+```
+
+#### Parse DDO 
+
+```
+NSString *result = @"26010000002103f631f975560afc7bf47902064838826ec67794ddcdbcc6f0a9c7b91fc85025832d046b657931044a736f6e0f7b226b6579223a2268656c6c6f227d046b65793006537472696e670676616c75653114fa88f5244be19659bbd24477caeeacac7cbf781b";
+NSString *ontId = @"did:ont:AUr5QUfeBADq6BMY6Tp5yuMsUNGpsD7nLZ";
+NSDictionary *dicDDO = [ONTIdentity parserDDODataWithOntid:ontId result:result];
+NSLog(@"%@", dicDDO);
+```
+
 
 ## Others
 

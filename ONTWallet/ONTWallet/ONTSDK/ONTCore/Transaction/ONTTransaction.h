@@ -65,4 +65,6 @@ typedef NS_OPTIONS(NSInteger, ONTTransactionType){
  */
 + (ONTTransaction *)makeDappInvokeTransactionWithDic:(NSDictionary *)dic;
 
+
+
 @end
