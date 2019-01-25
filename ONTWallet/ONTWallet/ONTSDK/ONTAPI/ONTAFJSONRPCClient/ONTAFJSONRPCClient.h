@@ -1,4 +1,4 @@
-// AFJSONRPCClient.m
+// ONTAFJSONRPCClient.m
 //
 // Created by wiistriker@gmail.com
 // Copyright (c) 2013 JustCommunication
@@ -22,13 +22,14 @@
 // THE SOFTWARE.
 
 #import "AFHTTPRequestOperationManager.h"
+#import <AFNetworking/AFNetworking.h>
 
 /**
  AFJSONRPCClient objects communicate with web services using the JSON-RPC 2.0 protocol.
  
  @see http://www.jsonrpc.org/specification
  */
-@interface AFJSONRPCClient : AFHTTPRequestOperationManager
+@interface ONTAFJSONRPCClient : AFHTTPRequestOperationManager
 
 /**
  The endpoint URL for the webservice.
@@ -127,4 +128,4 @@
 /**
  AFJSONRPCClient errors.
  */
-extern NSString * const AFJSONRPCErrorDomain;
+extern NSString * const ONTAFJSONRPCErrorDomain;

@@ -299,6 +299,11 @@
 
 - (void)testGetMempoolTxStateWithTxHash {
     [[ONTRpcApi shareInstance] getMempoolTxStateWithTxHash:@"8d1e6acf0e304cba71e92fb47cb67e72b586b646508cee941405bb2e2dddaee2" callback:^(id result, NSError *error) {
+        if (error) {
+            NSLog(@"error == %@", error);
+        } else {
+            NSLog(@"result == %@", result);
+        }
     }];
 }
 

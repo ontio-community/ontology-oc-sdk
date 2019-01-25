@@ -21,14 +21,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "AFJSONRPCClient.h"
+#import "ONTAFJSONRPCClient.h"
 #import "AFHTTPRequestOperation.h"
 
 #import <objc/runtime.h>
 
-NSString * const AFJSONRPCErrorDomain = @"com.alamofire.networking.json-rpc";
+NSString * const ONTAFJSONRPCErrorDomain = @"com.alamofire.networking.json-rpc";
 
-static NSString * AFJSONRPCLocalizedErrorMessageForCode(NSInteger code) {
+static NSString * ONTAFJSONRPCLocalizedErrorMessageForCode(NSInteger code) {
     switch(code) {
         case -32700:
             return @"Parse Error";
@@ -40,23 +40,53 @@ static NSString * AFJSONRPCLocalizedErrorMessageForCode(NSInteger code) {
             return @"Invalid Params";
         case -32603:
             return @"Internal Error";
+            
+        case 41001:
+            return @"SESSION_EXPIRED";
+        case 41002:
+            return @"SERVICE_CEILING";
+        case 41003:
+            return @"ILLEGAL_DATAFORMAT";
+        case 41004:
+            return @"INVALID_VERSION";
+        case 42001:
+            return @"INVALID_METHOD";
+        case 42002:
+            return @"INVALID_PARAMS";
+        case 43001:
+            return @"INVALID_TRANSACTION";
+        case 43002:
+            return @"INVALID_ASSET";
+        case 43003:
+            return @"INVALID_BLOCK";
+        case 44001:
+            return @"UNKNOWN_TRANSACTION";
+        case 44002:
+            return @"UNKNOWN_ASSET";
+        case 44003:
+            return @"UNKNOWN_BLOCK";
+        case 45001:
+            return @"INTERNAL_ERROR";
+        case 47001:
+            return @"SMARTCODE_ERROR";
+            
         default:
             return @"Server Error";
     }
 }
 
-@interface AFJSONRPCProxy : NSProxy
-- (id)initWithClient:(AFJSONRPCClient *)client
+@interface ONTAFJSONRPCProxy : NSProxy
+- (id)initWithClient:(ONTAFJSONRPCClient *)client
             protocol:(Protocol *)protocol;
 @end
 
 #pragma mark -
 
-@interface AFJSONRPCClient ()
+@interface ONTAFJSONRPCClient ()
 @property (readwrite, nonatomic, strong) NSURL *endpointURL;
 @end
 
-@implementation AFJSONRPCClient
+@implementation ONTAFJSONRPCClient
 
 + (instancetype)clientWithEndpointURL:(NSURL *)URL {
     return [[self alloc] initWithEndpointURL:URL];
@@ -132,12 +162,13 @@ static NSString * AFJSONRPCLocalizedErrorMessageForCode(NSInteger code) {
 }
 
 #pragma mark - AFHTTPClient
-
+/*
 - (AFHTTPRequestOperation *)HTTPRequestOperationWithRequest:(NSURLRequest *)urlRequest
                                                     success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                                                     failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
 {
     return [super HTTPRequestOperationWithRequest:urlRequest success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"AFHTTPClient = %@", responseObject);
         NSInteger code = 0;
         NSString *message = nil;
         id data = nil;
@@ -145,7 +176,7 @@ static NSString * AFJSONRPCLocalizedErrorMessageForCode(NSInteger code) {
         if ([responseObject isKindOfClass:[NSDictionary class]]) {
             id result = responseObject[@"result"];
             id error = responseObject[@"error"];
-
+            
             if (result && result != [NSNull null]) {
                 if (success) {
                     success(operation, result);
@@ -160,7 +191,7 @@ static NSString * AFJSONRPCLocalizedErrorMessageForCode(NSInteger code) {
                     if (error[@"message"]) {
                         message = error[@"message"];
                     } else if (code) {
-                        message = AFJSONRPCLocalizedErrorMessageForCode(code);
+                        message = ONTAFJSONRPCLocalizedErrorMessageForCode(code);
                     }
 
                     data = error[@"data"];
@@ -184,7 +215,7 @@ static NSString * AFJSONRPCLocalizedErrorMessageForCode(NSInteger code) {
                 userInfo[@"data"] = data;
             }
 
-            NSError *error = [NSError errorWithDomain:AFJSONRPCErrorDomain code:code userInfo:userInfo];
+            NSError *error = [NSError errorWithDomain:ONTAFJSONRPCErrorDomain code:code userInfo:userInfo];
 
             failure(operation, error);
         }
@@ -194,26 +225,90 @@ static NSString * AFJSONRPCLocalizedErrorMessageForCode(NSInteger code) {
         }
     }];
 }
+ */
+
+// ONT RPC 返回结构
+/*
+{
+    desc = SUCCESS;
+    error = 0;
+    id = 3;
+    jsonrpc = "2.0";
+    result = 1601354130;
+}
+ */
+- (AFHTTPRequestOperation *)HTTPRequestOperationWithRequest:(NSURLRequest *)urlRequest
+                                                    success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                                                    failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+{
+    return [super HTTPRequestOperationWithRequest:urlRequest success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"AFHTTPClient = %@", responseObject);
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+            id result = responseObject[@"result"];
+            id error = responseObject[@"error"];
+            id des = responseObject[@"desc"];
+            
+            if ([error isKindOfClass:[NSNumber class]]) {
+                NSNumber *errorCode = (NSNumber *)error;
+                NSInteger code = errorCode.integerValue;
+                if (code == 0) { // Success
+                    if (success) {
+                        success(operation, result);
+                    }
+                } else {
+                    if (failure) {
+                        NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+                        userInfo[NSLocalizedDescriptionKey] = [NSString stringWithFormat:@"%@:%@", des, result];
+                        NSError *error = [NSError errorWithDomain:ONTAFJSONRPCErrorDomain code:code userInfo:userInfo];
+                        failure(operation, error);
+                    }
+                }
+            } else {
+                if (failure) {
+                    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+                    userInfo[NSLocalizedDescriptionKey] = [NSString stringWithFormat:@"%@:%@", des, result];
+                    NSError *error = [NSError errorWithDomain:ONTAFJSONRPCErrorDomain code:-1 userInfo:userInfo];
+                    failure(operation, error);
+                }
+            }
+        } else {
+            if (failure) {
+                NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+                if (responseObject) {
+                    userInfo[NSLocalizedDescriptionKey] = [NSString stringWithFormat:@"%@", responseObject];
+                } else {
+                    userInfo[NSLocalizedDescriptionKey] = NSLocalizedStringFromTable(@"Unknown JSON-RPC Response", @"AFJSONRPCClient", nil);
+                }
+                NSError *error = [NSError errorWithDomain:ONTAFJSONRPCErrorDomain code:-1 userInfo:userInfo];
+                failure(operation, error);
+            }
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        if (failure) {
+            failure(operation, error);
+        }
+    }];
+}
 
 - (id)proxyWithProtocol:(Protocol *)protocol {
-    return [[AFJSONRPCProxy alloc] initWithClient:self protocol:protocol];
+    return [[ONTAFJSONRPCProxy alloc] initWithClient:self protocol:protocol];
 }
 
 @end
 
 #pragma mark -
 
-typedef void (^AFJSONRPCProxySuccessBlock)(id responseObject);
-typedef void (^AFJSONRPCProxyFailureBlock)(NSError *error);
+typedef void (^ONTAFJSONRPCProxySuccessBlock)(id responseObject);
+typedef void (^ONTAFJSONRPCProxyFailureBlock)(NSError *error);
 
-@interface AFJSONRPCProxy ()
-@property (readwrite, nonatomic, strong) AFJSONRPCClient *client;
+@interface ONTAFJSONRPCProxy ()
+@property (readwrite, nonatomic, strong) ONTAFJSONRPCClient *client;
 @property (readwrite, nonatomic, strong) Protocol *protocol;
 @end
 
-@implementation AFJSONRPCProxy
+@implementation ONTAFJSONRPCProxy
 
-- (id)initWithClient:(AFJSONRPCClient*)client
+- (id)initWithClient:(ONTAFJSONRPCClient*)client
             protocol:(Protocol *)protocol
 {
     self.client = client;
@@ -241,8 +336,8 @@ typedef void (^AFJSONRPCProxyFailureBlock)(NSError *error);
     NSString *RPCMethod = [NSStringFromSelector([invocation selector]) componentsSeparatedByString:@":"][0];
 
     __unsafe_unretained id arguments;
-    __unsafe_unretained AFJSONRPCProxySuccessBlock unsafeSuccess;
-    __unsafe_unretained AFJSONRPCProxyFailureBlock unsafeFailure;
+    __unsafe_unretained ONTAFJSONRPCProxySuccessBlock unsafeSuccess;
+    __unsafe_unretained ONTAFJSONRPCProxyFailureBlock unsafeFailure;
 
     [invocation getArgument:&arguments atIndex:2];
     [invocation getArgument:&unsafeSuccess atIndex:3];
@@ -250,8 +345,8 @@ typedef void (^AFJSONRPCProxyFailureBlock)(NSError *error);
     
     [invocation invokeWithTarget:nil];
 
-    __strong AFJSONRPCProxySuccessBlock strongSuccess = [unsafeSuccess copy];
-    __strong AFJSONRPCProxyFailureBlock strongFailure = [unsafeFailure copy];
+    __strong ONTAFJSONRPCProxySuccessBlock strongSuccess = [unsafeSuccess copy];
+    __strong ONTAFJSONRPCProxyFailureBlock strongFailure = [unsafeFailure copy];
 
     [self.client invokeMethod:RPCMethod withParameters:arguments success:^(__unused AFHTTPRequestOperation *operation, id responseObject) {
         if (strongSuccess) {

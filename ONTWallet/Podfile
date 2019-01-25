@@ -6,8 +6,8 @@ target 'ONTWallet' do
   # use_frameworks!
 
   # Pods for ONTWallet
-    pod 'AFNetworking'
-    pod 'AFJSONRPCClient'
+    pod 'AFNetworking', '~> 2.6.3'
+    #pod 'AFJSONRPCClient'
     pod 'MJExtension'
     pod 'MTDates'
     #Bitcoin

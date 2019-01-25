@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6E010F5FA492F1F7FED87EB20D60F55C"
+               BlueprintIdentifier = "AFAFB55453D161D2BB5CFB30C68A54D5"
                BlueprintName = "AFNetworking"
                ReferencedContainer = "container:Pods.xcodeproj"
                BuildableName = "libAFNetworking.a">
