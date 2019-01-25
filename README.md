@@ -230,3 +230,8 @@ NSLog(@"%@", dicDDO);
 ## Others
 
 See more tests in the file "ViewController.m"、"ONTWalletTests.m", thx!
+
+#### Contact
+
+- Wechat：18321857793（备注：ONT SDK）
+- QQ：3500229193（备注：ONT SDK）
