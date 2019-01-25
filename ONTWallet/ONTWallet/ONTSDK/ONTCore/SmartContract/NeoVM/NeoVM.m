@@ -62,7 +62,7 @@ static NeoVM *_instance = nil;
 
     if (sender) {
         [tx addSign:sender];
-        if ([sender isEqualToAccount:payer]) {
+        if (![sender isEqualToAccount:payer]) {
             [tx addSign:payer];
         }
     }
