@@ -7,14 +7,16 @@
 //
 
 #import "ONTRpcApi.h"
-#import <AFJSONRPCClient/AFJSONRPCClient.h>
+//#import <AFJSONRPCClient/AFJSONRPCClient.h>
+#import "ONTAFJSONRPCClient.h"
 #import "ONTBalance.h"
 #import "ONTUtils.h"
 #import "ONT.h"
 
+
 @interface ONTRpcApi()
 
-@property (nonatomic, strong) AFJSONRPCClient *client;
+@property (nonatomic, strong) ONTAFJSONRPCClient *client;
 
 @end
 
@@ -40,14 +42,14 @@ static ONTRpcApi *_instance = nil;
 }
 
 - (void)initData {
-    _client = [AFJSONRPCClient clientWithEndpointURL:[NSURL URLWithString:kONTRpcURL]];
+    _client = [ONTAFJSONRPCClient clientWithEndpointURL:[NSURL URLWithString:kONTRpcURL]];
 }
 
 - (void)setRpcURL:(NSString *)rpcURL {
     _rpcURL = rpcURL;
     
     if (_rpcURL && _rpcURL.length > 0) {
-        _client = [AFJSONRPCClient clientWithEndpointURL:[NSURL URLWithString:_rpcURL]];
+        _client = [ONTAFJSONRPCClient clientWithEndpointURL:[NSURL URLWithString:_rpcURL]];
     }
 }
 
@@ -94,7 +96,7 @@ static ONTRpcApi *_instance = nil;
 
 + (void)getBlockCountWithUrl:(NSString *)urlString callback:(void (^)(NSInteger blockCount, NSError *error))callback {
     if (urlString && urlString.length > 0) {
-        AFJSONRPCClient *client = [AFJSONRPCClient clientWithEndpointURL:[NSURL URLWithString:urlString]];
+        ONTAFJSONRPCClient *client = [ONTAFJSONRPCClient clientWithEndpointURL:[NSURL URLWithString:urlString]];
         [client invokeMethod:@"getblockcount" withParameters:@[] requestId:@(3) success:^(AFHTTPRequestOperation *operation, id responseObject) {
             NSLog(@"【ONTRpcApi getblockcount】%@", responseObject);
             NSString *blockCount = [NSString stringWithFormat:@"%@", responseObject];
@@ -131,7 +133,7 @@ static ONTRpcApi *_instance = nil;
 
 + (void)getConnectionCountWithUrl:(NSString *)urlString callback:(void (^)(NSInteger connectionCount, NSError *error))callback {
     if (urlString && urlString.length > 0) {
-        AFJSONRPCClient *client = [AFJSONRPCClient clientWithEndpointURL:[NSURL URLWithString:urlString]];
+        ONTAFJSONRPCClient *client = [ONTAFJSONRPCClient clientWithEndpointURL:[NSURL URLWithString:urlString]];
         [client invokeMethod:@"getconnectioncount" withParameters:@[] requestId:@(3) success:^(AFHTTPRequestOperation *operation, id responseObject) {
             NSLog(@"【ONTRpcApi getconnectioncount】%@", responseObject);
             NSString *connectionCount = [NSString stringWithFormat:@"%@", responseObject];
@@ -166,7 +168,7 @@ static ONTRpcApi *_instance = nil;
 }
 
 - (void)dappSendRawtransactionWithHexTx:(NSString *)hexTx preExec:(BOOL)preExec callback:(void (^)(ONTTransactionNotifyInfo *notifyInfo, id responseObject, NSError *error))callback {
-    AFJSONRPCClient *client = [AFJSONRPCClient clientWithEndpointURL:[NSURL URLWithString:kONTDappServerNode]];
+    ONTAFJSONRPCClient *client = [ONTAFJSONRPCClient clientWithEndpointURL:[NSURL URLWithString:kONTDappServerNode]];
     [client invokeMethod:@"sendrawtransaction" withParameters:@[hexTx, preExec?@(1):@(0)] requestId:@(3) success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"【ONTRpcApi sendrawtransaction】%@", responseObject);
         if ([responseObject isKindOfClass:[NSDictionary class]]) {

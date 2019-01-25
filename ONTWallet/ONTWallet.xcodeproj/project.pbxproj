@@ -79,6 +79,7 @@
 		7347155821154CA300ADD665 /* base58.c in Sources */ = {isa = PBXBuildFile; fileRef = 7347153B21154CA300ADD665 /* base58.c */; };
 		7347155921154CA300ADD665 /* ecdsa.c in Sources */ = {isa = PBXBuildFile; fileRef = 7347153D21154CA300ADD665 /* ecdsa.c */; };
 		7347155A21154CA300ADD665 /* pbkdf2.c in Sources */ = {isa = PBXBuildFile; fileRef = 7347153E21154CA300ADD665 /* pbkdf2.c */; };
+		735D167321FADB4D00E3F37C /* ONTAFJSONRPCClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 735D167221FADB4D00E3F37C /* ONTAFJSONRPCClient.m */; };
 		737FF8FD21D7463C0076446E /* ONTBufferReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 737FF8FB21D7463C0076446E /* ONTBufferReader.m */; };
 		737FF8FE21D7463C0076446E /* ONTScriptReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 737FF8FC21D7463C0076446E /* ONTScriptReader.m */; };
 		73B1C4A32115EE48002FDFF2 /* ONTRpcApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 73B1C4A22115EE48002FDFF2 /* ONTRpcApi.m */; };
@@ -295,6 +296,8 @@
 		7347153E21154CA300ADD665 /* pbkdf2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pbkdf2.c; sourceTree = "<group>"; };
 		7347153F21154CA300ADD665 /* secp256k1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = secp256k1.h; sourceTree = "<group>"; };
 		7347155B21154D6300ADD665 /* ONT.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ONT.h; sourceTree = "<group>"; };
+		735D167121FADB4D00E3F37C /* ONTAFJSONRPCClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONTAFJSONRPCClient.h; sourceTree = "<group>"; };
+		735D167221FADB4D00E3F37C /* ONTAFJSONRPCClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONTAFJSONRPCClient.m; sourceTree = "<group>"; };
 		737FF8F921D7463B0076446E /* ONTScriptReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONTScriptReader.h; sourceTree = "<group>"; };
 		737FF8FA21D7463B0076446E /* ONTBufferReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ONTBufferReader.h; sourceTree = "<group>"; };
 		737FF8FB21D7463C0076446E /* ONTBufferReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ONTBufferReader.m; sourceTree = "<group>"; };
@@ -503,6 +506,7 @@
 		7347148121154BF400ADD665 /* ONTAPI */ = {
 			isa = PBXGroup;
 			children = (
+				735D167021FADB4D00E3F37C /* ONTAFJSONRPCClient */,
 				73B1C4A12115EE47002FDFF2 /* ONTRpcApi.h */,
 				73B1C4A22115EE48002FDFF2 /* ONTRpcApi.m */,
 				73B1C4AC2115FDD5002FDFF2 /* ONTRestfulApi.h */,
@@ -758,6 +762,15 @@
 			path = secp256k1_zkp;
 			sourceTree = "<group>";
 		};
+		735D167021FADB4D00E3F37C /* ONTAFJSONRPCClient */ = {
+			isa = PBXGroup;
+			children = (
+				735D167121FADB4D00E3F37C /* ONTAFJSONRPCClient.h */,
+				735D167221FADB4D00E3F37C /* ONTAFJSONRPCClient.m */,
+			);
+			path = ONTAFJSONRPCClient;
+			sourceTree = "<group>";
+		};
 		73B1C4A42115F18B002FDFF2 /* ONTModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -1001,6 +1014,7 @@
 				7326E13921DCA12700173C03 /* ONTIdentity.m in Sources */,
 				734714DA21154BF400ADD665 /* SHAHash.m in Sources */,
 				7347154D21154CA300ADD665 /* secp256k1.c in Sources */,
+				735D167321FADB4D00E3F37C /* ONTAFJSONRPCClient.m in Sources */,
 				7347154B21154CA300ADD665 /* IAGError.m in Sources */,
 				731EB0B020F8447000A1C4D0 /* ViewController.m in Sources */,
 				7326E13321DCA12700173C03 /* ONTPrivateKey.m in Sources */,

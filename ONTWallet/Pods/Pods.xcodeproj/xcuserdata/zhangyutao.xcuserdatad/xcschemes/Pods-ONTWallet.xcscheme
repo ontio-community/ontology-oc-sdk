@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B365233AAC3563C0CEEB9E53BB7EED2B"
+               BlueprintIdentifier = "27A5AA2BCE53AD7C1B71703FDCB42F6A"
                BlueprintName = "Pods-ONTWallet"
                ReferencedContainer = "container:Pods.xcodeproj"
                BuildableName = "libPods-ONTWallet.a">
