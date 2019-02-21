@@ -1,8 +1,21 @@
 # ONTWallet
-A lib for ONT wallet.
+A lib for ONT wallet written in Objective-C.
+
+
+## Installation
+
+1. Download this project to local.
+2. Copy the 'ONTSDK' floder to your project.
+3. Set configuration in 'ONT.h' file:
+- kONTMainNet: YES is for mainnet, NO is for testnet;
+- kONTRpcURL: RPC Api base url;
+- kONTRestfulURL: Restful Api base url;
+- kONTDappServerNode: ONT DApp Api base url.
 
 
 ## Usage
+
+### Wallet
 
 #### Create a new wallet
 
@@ -79,6 +92,20 @@ NSLog(@"Claim ONG txHex == %@", txHex);
         NSLog(@"error == %@", error);
     } else {
         NSLog(@"txHash == %@", txHash);
+    }
+}];
+```
+
+#### Qury balance
+
+```
+[[ONTRpcApi shareInstance] getBalanceWithAddress:@"AatvPQVe1RECTqoAxe9FtSdWGnABVjMExv" callback:^(NSArray *balances, NSError *error) {
+    if (error) {
+        NSLog(@"error == %@", error);
+    } else {
+        for (ONTBalance *balance in balances) {
+            NSLog(@"%@ == %@", balance.name, balance.balances);
+        }
     }
 }];
 ```
@@ -229,9 +256,18 @@ NSLog(@"%@", dicDDO);
 
 ## Others
 
-See more tests in the file "ViewController.m"、"ONTWalletTests.m", thx!
+See more tests in the files "ViewController.m"、"ONTWalletTests.m", thx!
 
-#### Contact
 
-- Wechat：18321857793（备注：ONT SDK）
-- QQ：3500229193（备注：ONT SDK）
+
+## Donate
+
+- ONT Address：AR4iFxFdbjTkHKtStSKRvu5bgXXBcpZx9D
+
+
+
+## Contact
+
+- Wechat：18321857793（memo：ONT SDK）
+- QQ：3500229193（memo：ONT SDK）
+
