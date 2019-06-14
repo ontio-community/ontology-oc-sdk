@@ -46,6 +46,9 @@
     // Creat wallet
     //[self testCreateNewWallet];
     
+    // Import Wallet
+    //[self testImportWalletWithWIF];
+    
     // GET Get Best Block Hash
     //[self testGetBestBlockHash];
     
@@ -61,7 +64,7 @@
     //GET Block Hash With Height
     //[self testGetBlockHashWithHeight];
     
-    ///GET Connection Count
+    //GET Connection Count
     //[self testGetConnectionCount];
     
     //GET Rawtransaction With TxHash
@@ -158,6 +161,15 @@
         NSLog(@"助记词解析正确！！！");
     } else {
         NSLog(@"助记词解析错误！！！");
+    }
+}
+
+- (void)testImportWalletWithWIF {
+    ONTAccount *account = [[ONTAccount alloc] initWithName:@"ONT-Wallet" password:@"ONT123ont" wif:@"L3WY9S4BWcz9PLY9LpbayXU6meg9VzgbJRaNQCReYbhNVGQEQ9FQ"];
+    if (account) {
+        NSLog(@"导入成功：address = %@", account.address.address);
+    } else {
+        NSLog(@"WIF 错误！！！");
     }
 }
 
