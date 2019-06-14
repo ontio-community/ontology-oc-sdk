@@ -10,24 +10,29 @@
 #import "Categories.h"
 #import "NSMutableData+ONTScriptBuilder.h"
 
-@interface ONTPublicKey(){
+@interface ONTPublicKey() {
     NSData *pubkey;
 }
+
 @end
+
 @implementation ONTPublicKey
 
-- (instancetype)initWithData:(NSData*)pubKey
-{
+- (instancetype)initWithData:(NSData*)pubKey {
     self = [super init];
     if (self) {
+        if (!pubKey) {
+            return nil;
+        }
         pubkey = pubKey;
     }
     return self;
 }
 
--(NSData *)data{
+- (NSData *)data {
     return pubkey;
 }
+
 - (ONTAddress*)toAddress {
     unsigned char CHECKSIG = ONT_OPCODE_CHECKSIG;
     
@@ -41,4 +46,5 @@
     
     return [[ONTAddress alloc] initWithAddressString:[NSString base58checkWithData:hex.hexToData]];
 }
+
 @end

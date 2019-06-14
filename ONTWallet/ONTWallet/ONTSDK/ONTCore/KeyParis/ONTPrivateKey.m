@@ -9,37 +9,50 @@
 #import "ONTPrivateKey.h"
 #import "Categories.h"
 
-@interface ONTPrivateKey (){
+@interface ONTPrivateKey () {
     NSData *privkey;
 }
 @end
+
 @implementation ONTPrivateKey
+
 /**
  * @brief Initialization method
  */
-- (instancetype) initWithData:(NSData *)privKey{
+- (instancetype)initWithData:(NSData *)privKey {
     self = [super init];
     if (self) {
+        if (!privKey || privKey.length != 32) {
+            return nil;
+        }
         privkey = privKey;
     }
     return self;
 }
+
 /**
  * @brief Initialization method
  */
-- (instancetype) initWithPrivateKeyHex:(NSString *)privKeyHex {
+- (instancetype)initWithPrivateKeyHex:(NSString *)privKeyHex {
     self = [super init];
     if (self) {
+        if (!privKeyHex || privKeyHex.length != 64) {
+            return nil;
+        }
         privkey = privKeyHex.hexToData;
     }
     return self;
 }
+
 /**
  * @brief Initialization method
  */
-- (instancetype) initWithWif:(NSString *)wif{
+- (instancetype)initWithWif:(NSString *)wif {
     self = [super init];
     if (self) {
+        if (!wif || wif.length != 52) {
+            return nil;
+        }
         NSData *privKeyData =  [wif base58checkToData];
         // Check Length
         if (!privKeyData || privKeyData.length != 34) {
@@ -59,10 +72,11 @@
     }
     return self;
 }
+
 /**
  * @return EOS Private to Wif
  */
-- (NSString *)toWif{
+- (NSString *)toWif {
     NSMutableData *privateData = [NSMutableData new];
     unsigned char byte = 0x80;
     
@@ -74,10 +88,11 @@
     
     return [NSString base58checkWithData:privateData];
 }
+
 /**
  * @return EOS Private Data
  */
--(NSData *)data{
+- (NSData *)data {
     return privkey;
 }
 
