@@ -47,7 +47,7 @@
     //[self testCreateNewWallet];
     
     // Import Wallet
-    //[self testImportWalletWithWIF];
+    [self testImportWalletWithWIF];
     
     // GET Get Best Block Hash
     //[self testGetBestBlockHash];

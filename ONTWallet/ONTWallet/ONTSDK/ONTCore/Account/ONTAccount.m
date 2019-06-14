@@ -62,8 +62,16 @@
         [path addObject:[[ChildNumber alloc] initWithPath:0 Hardened:NO]];
         
         ONTECKey *ecKey = [[rootKey Derive:path] toECKey];
+        
         _privateKey = [[ONTPrivateKey alloc] initWithData:ecKey.privateKeyAsData];
+        if (!_privateKey) {
+            return nil;
+        }
+        
         _publicKey = [[ONTPublicKey alloc] initWithData:ecKey.publicKeyAsData];
+        if (!_publicKey) {
+            return nil;
+        }
     }
     return self;
 }
@@ -93,8 +101,16 @@
         [path addObject:[[ChildNumber alloc] initWithPath:0 Hardened:NO]];
         
         ONTECKey *ecKey = [[rootKey Derive:path] toECKey];
+        
         _privateKey = [[ONTPrivateKey alloc] initWithData:ecKey.privateKeyAsData];
+        if (!_privateKey) {
+            return nil;
+        }
+        
         _publicKey = [[ONTPublicKey alloc] initWithData:ecKey.publicKeyAsData];
+        if (!_publicKey) {
+            return nil;
+        }
     }
     return self;
 }
@@ -106,9 +122,21 @@
         _password = password;
         
         ONTPrivateKey *privateKey = [[ONTPrivateKey alloc] initWithPrivateKeyHex:privateKeyHex];
+        if (!privateKey) {
+            return nil;
+        }
+        
         ONTECKey *ecKey = [[ONTECKey alloc] initWithPriKey:privateKey.data];
+        
         _privateKey = [[ONTPrivateKey alloc] initWithData:ecKey.privateKeyAsData];
+        if (!_privateKey) {
+            return nil;
+        }
+        
         _publicKey = [[ONTPublicKey alloc] initWithData:ecKey.publicKeyAsData];
+        if (!_publicKey) {
+            return nil;
+        }
     }
     return self;
 }
@@ -120,9 +148,21 @@
         _password = password;
         
         ONTPrivateKey *privateKey = [[ONTPrivateKey alloc] initWithWif:wif];
+        if (!privateKey) {
+            return nil;
+        }
+        
         ONTECKey *ecKey = [[ONTECKey alloc] initWithPriKey:privateKey.data];
+        
         _privateKey = [[ONTPrivateKey alloc] initWithData:ecKey.privateKeyAsData];
+        if (!_privateKey) {
+            return nil;
+        }
+        
         _publicKey = [[ONTPublicKey alloc] initWithData:ecKey.publicKeyAsData];
+        if (!_publicKey) {
+            return nil;
+        }
     }
     return self;
 }
